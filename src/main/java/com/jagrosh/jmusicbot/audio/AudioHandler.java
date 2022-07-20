@@ -199,7 +199,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
 
     
     // Formatting
-    public Message getNowPlaying(JDA jda)
+    public Message getNowPlaying(JDA jda, boolean includeProgress)
     {
         if(isMusicPlaying(jda))
         {
@@ -236,15 +236,26 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             if(track.getInfo().author != null && !track.getInfo().author.isEmpty())
                 eb.setFooter("Source: " + track.getInfo().author, null);
 
-            double progress = (double)audioPlayer.getPlayingTrack().getPosition()/track.getDuration();
-            eb.setDescription(getStatusEmoji()
-                    + " "+FormatUtil.progressBar(progress)
-                    + " `[" + FormatUtil.formatTime(track.getPosition()) + "/" + FormatUtil.formatTime(track.getDuration()) + "]` "
-                    + FormatUtil.volumeIcon(audioPlayer.getVolume()));
+             if(includeProgress)
+            {
+                double progress = (double)audioPlayer.getPlayingTrack().getPosition()/track.getDuration();
+                eb.setDescription(getStatusEmoji()
+                        + " "+FormatUtil.progressBar(progress)
+                        + " `[" + FormatUtil.formatTime(track.getPosition()) + "/" + FormatUtil.formatTime(track.getDuration()) + "]` "
+                        + FormatUtil.volumeIcon(audioPlayer.getVolume()));
+            }
+            else
+                eb.setDescription(" `[" + FormatUtil.formatTime(track.getDuration()) + "]` "
+                        + FormatUtil.volumeIcon(audioPlayer.getVolume()));
             
             return mb.setEmbeds(eb.build()).build();
         }
         else return null;
+    }
+    
+    public Message getNowPlaying(JDA jda)
+    {
+        return getNowPlaying(jda, true);
     }
     
     public Message getNoMusicPlaying(JDA jda)
