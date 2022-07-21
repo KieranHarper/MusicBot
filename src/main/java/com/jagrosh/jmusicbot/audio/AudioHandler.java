@@ -234,7 +234,8 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             }
             
             if(track.getInfo().author != null && !track.getInfo().author.isEmpty())
-                eb.setFooter("Source: " + track.getInfo().author, null);
+                // added album
+                eb.setFooter("Author: " + track.getInfo().author + " Album: "+ track.getInfo().album, null);
 
              if(includeProgress)
             {
