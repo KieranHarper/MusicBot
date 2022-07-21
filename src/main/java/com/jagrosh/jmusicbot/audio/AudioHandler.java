@@ -234,7 +234,9 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             }
             
             if(track.getInfo().author != null && !track.getInfo().author.isEmpty())
-                eb.setFooter("Source: " + track.getInfo().author, null);
+                // I'd like to display album but not sure the property is exposed.
+                //eb.setFooter("Author: " + track.getInfo().author + " Album: "+ track.getInfo().album, null);
+                eb.setFooter("Author: " + track.getInfo().author, null);
 
              if(includeProgress)
             {
